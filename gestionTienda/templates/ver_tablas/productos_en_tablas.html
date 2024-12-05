@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla de Registros</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: box;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding:2%;
+        }
+        table {
+            width: 40%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        button {
+            margin: 0 5px;
+        }
+        {% for producto in productos %}
+        #contenedor_{{producto.id_producto}}{
+            display:none;
+        }
+        {% endfor %}
+    </style>
+</head>
+<body>
+    {% include "gestion_tienda.html" %}
+    <h1>Tabla de Productos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Id producto</th>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Categoria</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+            <tr>
+                <td>{{producto.id_producto}}</td>
+                <td>{{producto.nombre}}</td>
+                <td>{{producto.precio}}</td>
+                <td>{{producto.categoria}}</td>
+                
+                <td>
+                    <button type="button" onclick="simularClic('botonEliminar{{producto.id_producto}}')">X</button>
+                    <button type="button" onclick="desbloquearContMod('contenedor_{{producto.id_producto}}')">Mod</button>
+                </td>
+            </tr>
+            {% endfor %}
+            
+            
+        </tbody>
+    </table>
+    {% for producto in productos %}
+            {% include "modificar/modificar_producto.html" %}
+    {% endfor %}
+    <script> 
+    var encendido_previo = ''
+        function desbloquearContMod(id_cont){
+            var elemento = document.getElementById(id_cont); 
+            if( encendido_previo == id_cont){
+                elemento.style.display = 'none'; 
+                encendido_previo = ''
+            }
+            else{
+                if( encendido_previo != ''){
+                    var otro_elemento = document.getElementById(encendido_previo); 
+                    otro_elemento.style.display = 'none'; 
+                }
+                elemento.style.display = 'block'; 
+                encendido_previo = id_cont
+            }
+            
+        }
+        function simularClic(id_boton){
+            document.getElementById(id_boton).click();
+        }
+
+
+    </script>
+</body>
+</html>
