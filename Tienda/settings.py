@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -80,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'tiendabd',
         'USER': 'postgres',
-        'PASSWORD': 'micontrasenia',
+        'PASSWORD': 'daisolana78',
         'HOST': '127.0.0.1',
         'PORT':'5432',
     }
@@ -127,3 +128,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MONGO_HOST = 'localhost' 
+MONGO_PORT = 27017
+MONGO_BD = 'mitienda'
+MONGO_COLLECTION = 'productos'

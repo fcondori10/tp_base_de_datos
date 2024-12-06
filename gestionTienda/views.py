@@ -4,11 +4,13 @@ from django.http import HttpResponse, HttpRequest
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 # Create your views here.
+from django.conf import settings
+
 def gestion_tienda(request):
     try:
-        client = MongoClient('localhost', 27017)
-        databasem = client['mitienda']
-        collection = databasem['productos']
+        client = MongoClient(settings.MONGO_HOST, settings.MONGO_PORT)
+        databasem = client[settings.MONGO_BD]
+        collection = databasem[settings.MONGO_COLLECTION]
 
         documents = list(collection.find()) 
     except Exception as ex:
@@ -145,7 +147,7 @@ def modificar_producto(request):
     try: 
         producto = Productos.objects.get(id_producto=id_producto) 
     except Productos.DoesNotExist: 
-        return HttpResponse("No existe el producto con id: %r" %request.GET["input_pedido"])
+        return HttpResponse("No existe el producto con id: %r" %request.GET["input_producto"])
     return render(request, "modificar/modificar_producto.html",{"producto":producto})
 
 def producto_modificado(request):
@@ -204,9 +206,9 @@ def eliminar_producto(request):
 
 def gestion_mongodb(request):
     try:
-        client = MongoClient('localhost', 27017)
-        databasem = client['mitienda']
-        collection = databasem['productos']
+        client = MongoClient(settings.MONGO_HOST, settings.MONGO_PORT)
+        databasem = client[settings.MONGO_BD]
+        collection = databasem[settings.MONGO_COLLECTION]
 
         documents = list(collection.find()) 
     except Exception as ex:
@@ -219,9 +221,9 @@ def gestion_mongodb(request):
 def agregar_producto_nosql(request):
   
 
-    client = MongoClient('localhost', 27017)
-    database = client['mitienda']
-    collection = database['productos']
+    client = MongoClient(settings.MONGO_HOST, settings.MONGO_PORT)
+    databasem = client[settings.MONGO_BD]
+    collection = databasem[settings.MONGO_COLLECTION]
 
     descripcion = request.GET.get("descripcion_producto_nosql", "")
     stock = request.GET.get("stock_producto_nosql", "")
@@ -259,9 +261,9 @@ def agregar_producto_nosql(request):
     return render(request,"notificacion_msg.html", {"notificacion_msg":msg})
 
 def buscar_nosql(request):
-    client = MongoClient('localhost', 27017)
-    database = client['mitienda']
-    collection = database['productos']
+    client = MongoClient(settings.MONGO_HOST, settings.MONGO_PORT)
+    databasem = client[settings.MONGO_BD]
+    collection = databasem[settings.MONGO_COLLECTION]
 
     clave = request.GET["atributo_nosql"]
     valor = request.GET["buscador_nosql"]
@@ -278,9 +280,9 @@ def buscar_nosql(request):
 
 
 def modificar_nosql(request):
-    client = MongoClient('localhost', 27017)
-    database = client['mitienda']
-    collection = database['productos']
+    client = MongoClient(settings.MONGO_HOST, settings.MONGO_PORT)
+    databasem = client[settings.MONGO_BD]
+    collection = databasem[settings.MONGO_COLLECTION]
 
     # Criterio de búsqueda usando _id
     id = request.GET["_id"]
@@ -308,9 +310,9 @@ def modificar_nosql(request):
     
 
 def eliminar_nosql(request):
-    client = MongoClient('localhost', 27017)
-    database = client['mitienda']
-    collection = database['productos']
+    client = MongoClient(settings.MONGO_HOST, settings.MONGO_PORT)
+    databasem = client[settings.MONGO_BD]
+    collection = databasem[settings.MONGO_COLLECTION]
 
     id = request.GET["_id"]
     criterio = {"_id": ObjectId(id)}
