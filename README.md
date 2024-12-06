@@ -15,7 +15,7 @@ pip install pymongo
 ```bash
 create database tiendabd
 ```
-## En settings.py agregar la base de datos con la contraseña y puerto correspondientes
+### En settings.py agregar la base de datos con la contraseña y puerto correspondientes
 
 ```bash
 DATABASES = {
@@ -30,14 +30,14 @@ DATABASES = {
 }
 ```
 
-## En el directorio donde esta manage.py ejecutar los comandos
+### En el directorio donde esta manage.py ejecutar los comandos
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
 ## Crear base de datos en Mongodb y una coleccion
-## En settings.py configurar base de datos de MongoDB con puerto, nombre de la bd y nombre de la coleccion
+### En settings.py configurar base de datos de MongoDB con puerto, nombre de la bd y nombre de la coleccion
 ```bash
 MONGO_HOST = 'localhost' 
 MONGO_PORT = 27017
@@ -45,7 +45,8 @@ MONGO_BD = 'mitienda'
 MONGO_COLLECTION = 'productos'
 ```
 
-# Para correr el proyecto ejecutar el siguiente comando e ir a la direccion para ver la pagina:
+# Ejecutar
+### Para correr el proyecto ejecutar el siguiente comando e ir a la direccion para ver la pagina:
 ```bash
 python manage.py runserver
 ```

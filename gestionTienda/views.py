@@ -289,6 +289,7 @@ def modificar_nosql(request):
     criterio = {"_id": ObjectId(id)}
 
     # Nuevos valores
+    nombre = request.GET.get("nombre", "").strip()
     descripcion = request.GET.get("descripcion", "").strip()
     marca = request.GET.get("marca", "").strip()
     
@@ -296,7 +297,7 @@ def modificar_nosql(request):
     stock = request.GET.get("stock", "").strip()
     categorias = request.GET.get("categorias", "").strip()
     imagenes = request.GET.get("imagenes", "").strip()
-    nuevos_valores = {"$set": {"descripcion":descripcion, "marca": marca, "precio": precio, "stock": stock, "categorias":categorias, "imagenes":imagenes}}
+    nuevos_valores = {"$set": {"nombre": nombre,"descripcion":descripcion, "marca": marca, "precio": precio, "stock": stock, "categorias":categorias, "imagenes":imagenes}}
 
     # Actualizar el documento
     resultado = collection.update_one(criterio, nuevos_valores)

@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'Tienda.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'tiendabd',
+        'NAME': 'miprueba',
         'USER': 'postgres',
         'PASSWORD': 'daisolana78',
         'HOST': '127.0.0.1',
@@ -131,5 +131,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MONGO_HOST = 'localhost' 
 MONGO_PORT = 27017
-MONGO_BD = 'mitienda'
-MONGO_COLLECTION = 'productos'
+MONGO_BD = 'pruebabd'
+MONGO_COLLECTION = 'pruebacol'
