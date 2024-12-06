@@ -1,0 +1,30 @@
+<head>
+    <title>
+        Cliente agregado
+    </title>
+</head>
+
+<body>
+    <h2> {{titulo}} </h2>
+<table border="3">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>DNI</th>
+            <th>Número</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{cliente.nombre}}</td>
+            <td>{{cliente.dni}}</td>
+            <td>{{cliente.telefono}}</td>
+            <td>{{cliente.email}}</td>
+        </tr>
+    </tbody>
+</table>
+<form action="/">
+<button type="submit" >Volver</button>
+</form>
+</body>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title> Base de datos </title>
+        <style>
+            body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: box;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 3%;
+        }
+            
+            #contenedor {
+                position: relative;
+                width: 100%;
+                height: 400px;
+            }
+
+            #relacional, #no_relacional {
+                position: absolute;
+                width: 800px;
+                
+            }
+
+            #relacional {
+                top: 10px;
+                left: 10px;
+            }
+
+            #no_relacional {
+                top: 10px;
+                right: 10px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="contenedor">
+        <div class="bases" id="relacional">
+            <h2> Sql</h2>
+    {% include "relacional.html" %}
+            
+        </div>
+        <div class="bases" id="no_relacional">
+            <h2> Nosql</h2>
+            {% include "no_relacional.html" %}
+        </div>
+    </div>
+            <script>
+                
+            </script>
+
+
+    </body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title> Base de datos </title>
+        <style>
+            body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: box;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .form-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group > button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+        #agregarCliente {
+                    display: none;
+        }
+        .boton_input_mod > button{
+            width: 20%;
+            text-align: center;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .boton_input_mod{
+            display:flex;
+            width: 100%;
+            
+        }
+        .invisible { visibility: hidden;
+        }
+        .claves_previas{
+            display: none;
+        }
+        .button_submits{
+            margin-top:5px;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="form-container" id="contenedor_{{pedido.id_pedido}}">
+            <h2>Modificar Pedido</h2>
+            <form action="/pedido_modificado/" method="GET">
+                <input type="number" id="clave_previa" name="clave_previa" maxlength="40" value={{pedido.id_pedido}} class="claves_previas">
+                <div class="form-group">
+                    <label for="id_pedido">Id Pedido:</label>
+                    <div class="boton_input_mod">
+                        <input type="number"  id="id_pedido" name="id_pedido" maxlength="40" value="{{pedido.id_pedido}}" required>
+                    </div>
+                    
+                </div>
+                <div class="form-group">
+                    <label for="id_producto_pedido">Id Producto:</label>
+                    <div class="boton_input_mod">
+                        <input type="number" value={{pedido.id_producto}} id="id_producto_pedido" name="id_producto_pedido" maxlength="40" required>
+                    </div>
+                    
+                </div>
+                <div class="form-group">
+                    <label for="dni_pedido">DNI :</label>
+                    <div class="boton_input_mod">
+                        <input type="number" id="dni_pedido" value="{{pedido.dni}}" name="dni_pedido" maxlength="40" required>
+                    </div>
+                    
+                </div>
+                <div class="form-group">
+                    <label for="cantidad_pedido">Cantidad</label>
+                    <div class="boton_input_mod">
+                        <input type="number" id="cantidad_pedido" value={{pedido.cantidad}} name="cantidad_pedido" required>
+                    </div>
+                    
+                </div>
+                <div class="form-group">
+
+                    <button class="button_submits" type="button" onclick="setAction(this.form, '/pedido_modificado/')">Guardar Cambios</button>
+                    <button class="button_submits" type="button" onclick="setAction(this.form, '/eliminar_pedido/')" id="botonEliminar{{pedido.id_pedido}}">Eliminar</button>
+                </div>
+            </form>
+        </div>
+        <script> 
+            
+            function setAction(form, action) { 
+                form.action = action; 
+                form.submit(); 
+
+            }
+        </script>
+    </body>
+</html>

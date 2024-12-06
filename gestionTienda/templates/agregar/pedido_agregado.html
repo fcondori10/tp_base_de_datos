@@ -1,0 +1,30 @@
+<head>
+    <title>
+        Pedido agregado
+    </title>
+</head>
+
+<body>
+    <h2> {{titulo}} </h2>
+<table border="3">
+    <thead>
+        <tr>
+            <th>Id pedido</th>
+            <th>Id_producto</th>
+            <th>dni</th>
+            <th>cantidad</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{pedido.id_pedido}}</td>
+            <td>{{pedido.id_producto}}</td>
+            <td>{{pedido.dni}}</td>
+            <td>{{pedido.cantidad}}</td>
+        </tr>
+    </tbody>
+</table>
+<form action="/">
+<button type="submit" >Volver</button>
+</form>
+</body>

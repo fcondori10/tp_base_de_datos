@@ -1,0 +1,30 @@
+<head>
+    <title>
+        Producto agregado
+    </title>
+</head>
+
+<body>
+<h2> {{titulo}} </h2>
+<table border="3">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Precio</th>
+            <th>Categoria</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{producto.id_producto}}</td>
+            <td>{{producto.nombre}}</td>
+            <td>{{producto.precio}}</td>
+            <td>{{producto.categoria}}</td>
+        </tr>
+    </tbody>
+</table>
+<form action="/">
+<button type="submit" >Volver</button>
+</form>
+</body>
