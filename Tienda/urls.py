@@ -19,7 +19,7 @@ from django.urls import path
 from gestionTienda import views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('gestion_tienda/', views.gestion_tienda),
+    path('', views.gestion_tienda),
     path('agregar_cliente/', views.agregar_cliente),
     path('agregar_pedido/', views.agregar_pedido),
     path('agregar_producto/', views.agregar_producto),
@@ -38,13 +38,11 @@ urlpatterns = [
     path('eliminar_pedido/', views.eliminar_pedido),
     path('eliminar_producto/', views.eliminar_producto),
 
-
-
-
-
-    
-
-
+    path('gestion_mongodb/', views.gestion_mongodb),
+    path('agregar_producto_nosql/', views.agregar_producto_nosql),
+    path('buscar_nosql/', views.buscar_nosql),
+    path('eliminar_nosql/', views.eliminar_nosql),
+    path('modificar_nosql/', views.modificar_nosql),
 
 
 

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title> Base de datos </title>
+        <style>
+            
+
+            #lista_nosql > li {
+                margin: 3px;
+                padding: 15px;
+                background-color:rgb(233, 161, 29);
+                border: 2px solid orange;
+                display: inline-block;
+                box-sizing: border-box; /* Asegura que el tamaño incluya el borde */
+            }
+
+            #lista_nosql > li:hover {
+                padding: 15px;
+                border: 2px solid rgb(122, 71, 3);
+                display: inline-block;
+                box-sizing: border-box; /* Asegura que el tamaño incluya el borde */
+                
+            }
+            #agregar_producto{
+                width: 95%;
+                display:none;
+                justify-content: center;
+            }
+            {% for registro in registros %}
+            #registro_{{ forloop.counter }}{
+                display:none;
+            }
+            {% endfor %}
+            #atributo_nosql{
+                display:none;
+            }
+        </style>
+    </head>
+    <body>
+
+        <form action="/buscar_nosql/" method="GET" id="miFormulario" >
+            <input type="text" id="atributo_nosql" name="atributo_nosql"><br><br>
+
+            <input type="text" id="buscador_nosql" name="buscador_nosql" placeholder="Por ej: Placa de video"><br><br>
+    
+            <button type="button" onclick="escribirEnInputYEnviar(event, 'atributo_nosql', 'nombre')">Nombre</button>
+            <button type="button" onclick="escribirEnInputYEnviar(event, 'atributo_nosql', 'categoria')">Categoria</button>
+            <button type="button" onclick="escribirEnInputYEnviar(event, 'atributo_nosql', 'marca')">Marca</button>
+        </form>
+        <ul id="lista_nosql">
+            {% for registro in registros %}
+            <li onclick="mostrar_contenido('registro_{{ forloop.counter }}')">{{registro.nombre}} </li>
+            {% endfor %}
+        </ul>
+        <ul>
+            {% for registro in registros %}
+            <li id="registro_{{ forloop.counter }}">
+                <ul>
+                {% for key, value in registro.items %} 
+                <li><strong>{{ key }}:</strong> {{ value }}</li> 
+                {% endfor %}
+            </ul>
+            </li>
+            {% endfor %}
+            
+        </ul>
+
+
+        <button type="button" onclick="desplegar_add_producto()">Agregar Producto</button>
+        <div id="agregar_producto">
+            {% include "nosql/producto_nosql.html" %}
+        </div>
+
+        <script>
+            var id_previo = ''
+            var desplegar = false;
+            function mostrar_contenido(id_registro){
+                var elemento = document.getElementById(id_registro)
+                if(id_registro == id_previo){
+                    elemento.style.display = 'none';
+                    id_previo = ''
+                }
+                else{
+                    if(id_previo != ''){
+                        document.getElementById(id_previo).style.display = 'none';
+                    }
+                    id_previo = id_registro
+                    elemento.style.display = 'block';
+                }
+            }
+            function desplegar_add_producto(){
+                if(desplegar){
+                    document.getElementById("agregar_producto").style.display = 'none'
+                    desplegar = false;
+                }
+                else{
+                    document.getElementById("agregar_producto").style.display = 'block'
+                    desplegar = true;
+
+                }
+            }
+            function escribirEnInputYEnviar(event, inputId, valor) {
+            event.preventDefault(); // Evitar el envío del formulario
+            document.getElementById(inputId).value = valor; // Escribir en el input
+            document.getElementById('miFormulario').submit(); // Enviar el formulario
+        }
+        </script>
+
+
+
+
+
+
+    </body>
+</html>

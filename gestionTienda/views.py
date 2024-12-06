@@ -1,9 +1,22 @@
 from django.shortcuts import render
 from gestionTienda.models import Clientes, Pedidos, Productos
 from django.http import HttpResponse, HttpRequest
+from pymongo import MongoClient
+from bson.objectid import ObjectId
 # Create your views here.
 def gestion_tienda(request):
-    return render(request, "gestion_tienda.html", {})
+    try:
+        client = MongoClient('localhost', 27017)
+        databasem = client['mitienda']
+        collection = databasem['productos']
+
+        documents = list(collection.find()) 
+    except Exception as ex:
+        return HttpResponse("Error durante la conexión")
+    finally:
+        client.close()
+    
+    return render(request, "gestion_tienda.html", {"registros": documents})
 
 
 
@@ -176,7 +189,126 @@ def eliminar_producto(request):
     id_previo = request.GET["clave_previa"]
     producto = Productos.objects.get(id_producto=id_previo) 
     producto.delete()
-    msg = "Se ha eliminado el producto de id: %r" %id_previo
+    msg = "Se ha eliminado el producto  de id: %r" %id_previo
     return render(request, "notificacion_msg.html",{"notificacion_msg":msg})
 
 
+def gestion_mongodb(request):
+    try:
+        client = MongoClient('localhost', 27017)
+        databasem = client['mitienda']
+        collection = databasem['productos']
+
+        documents = list(collection.find()) 
+    except Exception as ex:
+        return HttpResponse("Error durante la conexión")
+    finally:
+        client.close()
+    
+    return render(request, "no_relacional.html", {"registros": documents})
+
+def agregar_producto_nosql(request):
+  
+
+    client = MongoClient('localhost', 27017)
+    database = client['mitienda']
+    collection = database['productos']
+
+    descripcion = request.GET.get("descripcion_producto_nosql", "")
+    stock = request.GET.get("stock_producto_nosql", "")
+    categorias = request.GET.get("categorias_producto_nosql", "")
+    imagen1 = request.GET.get("imagen1_producto_nosql", "")
+    descripcion1 = request.GET.get("descripcion1img_producto_nosql", "")
+    imagen2 = request.GET.get("imagen2_producto_nosql", "")
+    descripcion2 = request.GET.get("descripcion2img_producto_nosql", "")
+    if not categorias:
+        categorias = []
+    else:
+        categorias = categorias.split(",")
+    # Crear un nuevo registro
+    nuevo_producto = {
+        "nombre": request.GET["nombre_producto_nosql"],
+        "precio": request.GET["precio_producto_nosql"],
+        "marca": request.GET["marca_producto_nosql"],
+        "descripcion": descripcion,
+        "stock": stock,
+        "categorias": categorias,
+        "imagenes": [
+            {"url": imagen1, "descripcion": descripcion1},
+            {"url": imagen2, "descripcion": descripcion2}
+        ]
+    }
+
+    # Insertar el registro en la colección
+    resultado = collection.insert_one(nuevo_producto)
+
+    # Mostrar el ID del nuevo registro
+
+    # Cerrar la conexión
+    client.close()
+    msg = "Se modifico el producto: %r" %request.GET["nombre_producto_nosql"]
+    return render(request,"notificacion_msg.html", {"notificacion_msg":msg})
+
+def buscar_nosql(request):
+    client = MongoClient('localhost', 27017)
+    database = client['mitienda']
+    collection = database['productos']
+
+    clave = request.GET["atributo_nosql"]
+    valor = request.GET["buscador_nosql"]
+    if( clave != "categoria"):
+
+        #registros = collection.find({clave: valor})
+        registros = collection.find({clave: {"$regex": valor, "$options": "i"}})
+    else:
+        #registros = collection.find({"categorias": {"$in": [valor]}})
+        regex = f".*{valor}.*" 
+        registros = collection.find({"categorias": {"$regex": regex, "$options": "i"}}) 
+    
+    return render(request, "nosql/coincidencias_nosql.html", {"registros":registros})
+
+
+def modificar_nosql(request):
+    client = MongoClient('localhost', 27017)
+    database = client['mitienda']
+    collection = database['productos']
+
+    # Criterio de búsqueda usando _id
+    id = request.GET["_id"]
+    criterio = {"_id": ObjectId(id)}
+
+    # Nuevos valores
+    descripcion = request.GET.get("descripcion", "").strip()
+    marca = request.GET.get("marca", "").strip()
+    
+    precio = request.GET.get("precio", "").strip()
+    stock = request.GET.get("stock", "").strip()
+    categorias = request.GET.get("categorias", "").strip()
+    imagenes = request.GET.get("imagenes", "").strip()
+    nuevos_valores = {"$set": {"descripcion":descripcion, "marca": marca, "precio": precio, "stock": stock, "categorias":categorias, "imagenes":imagenes}}
+
+    # Actualizar el documento
+    resultado = collection.update_one(criterio, nuevos_valores)
+    client.close()
+    if resultado.matched_count > 0:
+        msg = "Se modifico el producto: %r" %request.GET["nombre"]
+        return render(request,"notificacion_msg.html", {"notificacion_msg":msg})
+    else:
+        return HttpResponse("no se encontro con :%r" %id)
+
+    
+
+def eliminar_nosql(request):
+    client = MongoClient('localhost', 27017)
+    database = client['mitienda']
+    collection = database['productos']
+
+    id = request.GET["_id"]
+    criterio = {"_id": ObjectId(id)}
+    resultado = collection.delete_one(criterio)
+    client.close()
+    if resultado.deleted_count > 0: 
+        return HttpResponse("Se elimino el producto: %r" %request.GET["nombre"])
+    else: 
+        return HttpResponse("no se encontro con :%r" %id)
+    
