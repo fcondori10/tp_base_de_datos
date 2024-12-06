@@ -12,6 +12,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            padding: 3%;
         }
         .form-container {
             background-color: #fff;
@@ -81,7 +82,7 @@
     </head>
     <body>
         <div class="form-container" id="contenedor_{{producto.id_producto}}">
-            <h2>Modificar Pedido</h2>
+            <h2>Modificar Producto</h2>
             <form action="/pedido_modificado/" method="GET">
                 <input type="number" id="clave_previa" name="clave_previa" maxlength="40" value={{producto.id_producto}} class="claves_previas">
                 <div class="form-group">
@@ -94,7 +95,7 @@
                 <div class="form-group">
                     <label for="nombre_producto">Nombre:</label>
                     <div class="boton_input_mod">
-                        <input type="text" value={{producto.nombre}} id="nombre_producto" name="nombre_producto" maxlength="40" required>
+                        <input type="text" value="{{producto.nombre}}" id="nombre_producto" name="nombre_producto" maxlength="40" required>
                     </div>
                     
                 </div>

@@ -96,9 +96,18 @@ def modificar_pedido(request):
     id_pedido = request.GET["input_pedido"]
     try: 
         pedido = Pedidos.objects.get(id_pedido=id_pedido) 
+        
     except Pedidos.DoesNotExist: 
         return HttpResponse("No existe el  pedido con id: %r" %request.GET["input_pedido"])
-    return render(request, "modificar/modificar_pedido.html",{"pedido":pedido})
+    try:
+        cliente = Clientes.objects.get(dni=pedido.dni)
+    except Clientes.DoesNotExist: 
+        cliente = Clientes(dni=-1,nombre="eliminado",email=".", telefono=".")
+    try:
+        producto = Productos.objects.get(id_producto=pedido.id_producto) 
+    except Producto.DoesNotExist: 
+        producto = Productos(id_producto = -1, nombre="eliminado", precio=-1, categoria=".")
+    return render(request, "modificar/pedidos_completo.html",{"pedido":pedido,"producto":producto,"cliente":cliente})
 
 def pedido_modificado(request):
     id_previo = request.GET["clave_previa"]
